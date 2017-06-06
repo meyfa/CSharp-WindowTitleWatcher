@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <Authors>Fabian Meyer</Authors>
+    <Company />
+    <Description>Allows checking and observing window titles.</Description>
+    <PackageProjectUrl>https://github.com/JangoBrick/CSharp-WindowTitleWatcher</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/JangoBrick/CSharp-WindowTitleWatcher/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/JangoBrick/CSharp-WindowTitleWatcher</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+</Project>
