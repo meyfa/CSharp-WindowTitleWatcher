@@ -10,7 +10,7 @@ namespace WindowTitleWatcher
         /// <summary>
         /// Gets the current window title.
         /// </summary>
-        private string Title
+        public string Title
         {
             get
             {
