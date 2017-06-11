@@ -10,6 +10,12 @@ namespace WindowTitleWatcher
     {
         #region imports
 
+        [DllImport("user32.dll")]
+        static extern bool IsWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        protected static extern bool IsWindowVisible(IntPtr hWnd);
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         protected static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
 
@@ -19,21 +25,38 @@ namespace WindowTitleWatcher
         #endregion
 
         /// <summary>
+        /// Returns whether the window has been disposed.
+        /// </summary>
+        public bool IsDisposed
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Returns whether the window is currently visible.
+        /// </summary>
+        public bool IsVisible
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the current window title.
         /// </summary>
         public string Title
         {
-            get
-            {
-                return mTitle;
-            }
+            get;
+            private set;
         }
 
         public event EventHandler TitleChanged;
+        public event EventHandler VisibilityChanged;
+        public event EventHandler Disposed;
 
         private readonly IntPtr windowHandle;
         private bool isRunning = true;
-        private string mTitle;
 
         public Watcher(Process proc)
             : this(proc.MainWindowHandle)
@@ -63,15 +86,41 @@ namespace WindowTitleWatcher
 
         private void Poll()
         {
+            // check whether disposed
+            if (!IsWindow(windowHandle))
+            {
+                isRunning = false;
+
+                IsDisposed = true;
+                if (IsVisible)
+                {
+                    IsVisible = false;
+                    VisibilityChanged?.Invoke(this, EventArgs.Empty);
+                }
+
+                Disposed?.Invoke(this, EventArgs.Empty);
+
+                return;
+            }
+
+            // update visibility
+            bool newVisibility = IsWindowVisible(windowHandle);
+            if (newVisibility != IsVisible)
+            {
+                IsVisible = newVisibility;
+                VisibilityChanged?.Invoke(this, EventArgs.Empty);
+            }
+
+            // update title
             int size = GetWindowTextLength(windowHandle);
 
             StringBuilder sb = new StringBuilder(size + 1);
             GetWindowText(windowHandle, sb, sb.Capacity);
 
-            string title = sb.ToString();
-            if (title != mTitle)
+            string newTitle = sb.ToString();
+            if (newTitle != Title)
             {
-                mTitle = title;
+                Title = newTitle;
                 TitleChanged?.Invoke(this, EventArgs.Empty);
             }
         }
