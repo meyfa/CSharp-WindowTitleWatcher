@@ -58,12 +58,33 @@ namespace WindowTitleWatcher
         private readonly IntPtr windowHandle;
         private bool isRunning = true;
 
+        /// <summary>
+        /// Watches the process's main window in the background (keepAlive = false).
+        /// </summary>
+        /// <param name="proc">The process.</param>
         public Watcher(Process proc)
             : this(proc.MainWindowHandle)
         {
         }
 
+        /// <summary>
+        /// Watches the window with the given handle in the background
+        /// (keepAlive = false).
+        /// </summary>
+        /// <param name="windowHandle">The window handle.</param>
         public Watcher(IntPtr windowHandle)
+            : this(windowHandle, false)
+        {
+        }
+
+        /// <summary>
+        /// Watches the window with the given handle, optionally keeping this
+        /// process active until the remote process closes or this watcher is
+        /// disposed.
+        /// </summary>
+        /// <param name="windowHandle">The window handle.</param>
+        /// <param name="keepAlive">Whether to keep this process alive.</param>
+        public Watcher(IntPtr windowHandle, bool keepAlive)
         {
             this.windowHandle = windowHandle;
 
@@ -71,6 +92,8 @@ namespace WindowTitleWatcher
 
             new Thread(() =>
             {
+                Thread.CurrentThread.IsBackground = !keepAlive;
+
                 while (isRunning)
                 {
                     Thread.Sleep(10);
