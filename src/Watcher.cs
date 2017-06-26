@@ -51,7 +51,7 @@ namespace WindowTitleWatcher
             private set;
         }
 
-        public event EventHandler TitleChanged;
+        public event EventHandler<TitleEventArgs> TitleChanged;
         public event EventHandler VisibilityChanged;
         public event EventHandler Disposed;
 
@@ -117,11 +117,12 @@ namespace WindowTitleWatcher
             StringBuilder sb = new StringBuilder(size + 1);
             GetWindowText(windowHandle, sb, sb.Capacity);
 
+            string prevTitle = Title;
             string newTitle = sb.ToString();
-            if (newTitle != Title)
+            if (newTitle != prevTitle)
             {
                 Title = newTitle;
-                TitleChanged?.Invoke(this, EventArgs.Empty);
+                TitleChanged?.Invoke(this, new TitleEventArgs(prevTitle, newTitle));
             }
         }
     }
