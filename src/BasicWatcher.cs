@@ -75,7 +75,7 @@ namespace WindowTitleWatcher
         {
             WindowPoller.Results prev = lastPoll;
             WindowPoller.Results results = poller.Poll();
-            lastPoll = poller.Poll();
+            lastPoll = results;
 
             IsVisible = results.IsVisible;
             Title = results.Title;
