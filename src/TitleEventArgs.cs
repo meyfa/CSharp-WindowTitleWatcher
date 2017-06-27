@@ -4,22 +4,13 @@ namespace WindowTitleWatcher
 {
     public class TitleEventArgs : EventArgs
     {
-        private readonly string previous, current;
+        public readonly string PreviousTitle;
+        public readonly string NewTitle;
 
         public TitleEventArgs(string previous, string current)
         {
-            this.previous = previous;
-            this.current = current;
-        }
-
-        public string PreviousTitle
-        {
-            get { return previous; }
-        }
-
-        public string NewTitle
-        {
-            get { return current; }
+            PreviousTitle = previous;
+            NewTitle = current;
         }
     }
 }
