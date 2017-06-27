@@ -1,45 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 
 namespace WindowTitleWatcher
 {
-    public class Watcher : IDisposable
+    public abstract class Watcher
     {
-        #region imports
-
-        [DllImport("user32.dll")]
-        static extern bool IsWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        protected static extern bool IsWindowVisible(IntPtr hWnd);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        protected static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        protected static extern int GetWindowTextLength(IntPtr hWnd);
-
-        #endregion
-
-        /// <summary>
-        /// Returns whether the window has been disposed.
-        /// </summary>
-        public bool IsDisposed
-        {
-            get;
-            private set;
-        }
-
         /// <summary>
         /// Returns whether the window is currently visible.
         /// </summary>
         public bool IsVisible
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>
@@ -48,105 +19,20 @@ namespace WindowTitleWatcher
         public string Title
         {
             get;
-            private set;
+            protected set;
         }
 
         public event EventHandler<TitleEventArgs> TitleChanged;
         public event EventHandler VisibilityChanged;
-        public event EventHandler Disposed;
 
-        private readonly IntPtr windowHandle;
-        private bool isRunning = true;
-
-        /// <summary>
-        /// Watches the process's main window in the background (keepAlive = false).
-        /// </summary>
-        /// <param name="proc">The process.</param>
-        public Watcher(Process proc)
-            : this(proc.MainWindowHandle)
+        protected void RaiseTitleChanged(TitleEventArgs e)
         {
+            TitleChanged?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Watches the window with the given handle in the background
-        /// (keepAlive = false).
-        /// </summary>
-        /// <param name="windowHandle">The window handle.</param>
-        public Watcher(IntPtr windowHandle)
-            : this(windowHandle, false)
+        protected void RaiseVisibilityChanged(EventArgs e)
         {
-        }
-
-        /// <summary>
-        /// Watches the window with the given handle, optionally keeping this
-        /// process active until the remote process closes or this watcher is
-        /// disposed.
-        /// </summary>
-        /// <param name="windowHandle">The window handle.</param>
-        /// <param name="keepAlive">Whether to keep this process alive.</param>
-        public Watcher(IntPtr windowHandle, bool keepAlive)
-        {
-            this.windowHandle = windowHandle;
-
-            Poll();
-
-            new Thread(() =>
-            {
-                Thread.CurrentThread.IsBackground = !keepAlive;
-
-                while (isRunning)
-                {
-                    Thread.Sleep(10);
-                    Poll();
-                }
-            }).Start();
-        }
-
-        public void Dispose()
-        {
-            isRunning = false;
-        }
-
-        private void Poll()
-        {
-            // check whether disposed
-            if (!IsWindow(windowHandle))
-            {
-                isRunning = false;
-
-                IsDisposed = true;
-                if (IsVisible)
-                {
-                    IsVisible = false;
-                    VisibilityChanged?.Invoke(this, EventArgs.Empty);
-                }
-
-                Disposed?.Invoke(this, EventArgs.Empty);
-
-                return;
-            }
-
-            // update visibility
-            bool newVisibility = IsWindowVisible(windowHandle);
-            if (newVisibility != IsVisible)
-            {
-                IsVisible = newVisibility;
-                VisibilityChanged?.Invoke(this, EventArgs.Empty);
-            }
-
-            // update title
-            int size = GetWindowTextLength(windowHandle);
-
-            StringBuilder sb = new StringBuilder(size + 1);
-            GetWindowText(windowHandle, sb, sb.Capacity);
-
-            string prevTitle = Title;
-            string newTitle = sb.ToString();
-            if (newTitle != prevTitle)
-            {
-                Title = newTitle;
-                TitleChanged?.Invoke(this, new TitleEventArgs(prevTitle, newTitle));
-            }
+            VisibilityChanged?.Invoke(this, e);
         }
     }
 }
