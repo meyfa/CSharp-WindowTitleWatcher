@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace WindowTitleWatcher
+namespace WindowTitleWatcher.Util
 {
     /// <summary>
     /// Utility class for enumerating and finding specific windows to be used
