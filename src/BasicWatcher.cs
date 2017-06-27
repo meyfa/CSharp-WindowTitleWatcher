@@ -18,8 +18,8 @@ namespace WindowTitleWatcher
 
         public event EventHandler Disposed;
 
-        private readonly Poller poller;
-        private Poller.Results lastPoll;
+        private readonly WindowPoller poller;
+        private WindowPoller.Results lastPoll;
         private bool isRunning = true;
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace WindowTitleWatcher
         /// <param name="keepAlive">Whether to keep this process alive.</param>
         public BasicWatcher(IntPtr windowHandle, bool keepAlive)
         {
-            this.poller = new Poller(windowHandle);
+            this.poller = new WindowPoller(windowHandle);
 
             Update();
 
@@ -73,8 +73,8 @@ namespace WindowTitleWatcher
 
         private void Update()
         {
-            Poller.Results prev = lastPoll;
-            Poller.Results results = poller.Poll();
+            WindowPoller.Results prev = lastPoll;
+            WindowPoller.Results results = poller.Poll();
             lastPoll = poller.Poll();
 
             IsVisible = results.IsVisible;

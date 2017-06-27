@@ -8,7 +8,7 @@ namespace WindowTitleWatcher.Internal
     /// Call <see cref="Poll"/> on instances of this class to retrieve current
     /// window information.
     /// </summary>
-    internal class Poller
+    internal class WindowPoller
     {
         #region imports
 
@@ -28,7 +28,7 @@ namespace WindowTitleWatcher.Internal
         
         public readonly IntPtr WindowHandle;
 
-        public Poller(IntPtr handle)
+        public WindowPoller(IntPtr handle)
         {
             WindowHandle = handle;
         }
@@ -58,7 +58,7 @@ namespace WindowTitleWatcher.Internal
         /// </summary>
         public class Results
         {
-            public static Results DISPOSED = new Results(true, false, null);
+            public static readonly Results DISPOSED = new Results(true, false, null);
 
             public readonly bool IsDisposed;
             public readonly bool IsVisible;
