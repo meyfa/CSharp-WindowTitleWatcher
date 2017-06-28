@@ -6,6 +6,10 @@ using WindowTitleWatcher.Util;
 
 namespace WindowTitleWatcher
 {
+    /// <summary>
+    /// State and title watcher for a specific window handle, i.e. the most
+    /// basic type.
+    /// </summary>
     public class BasicWatcher : Watcher, IDisposable
     {
         /// <summary>
@@ -76,6 +80,9 @@ namespace WindowTitleWatcher
             }).Start();
         }
 
+        /// <summary>
+        /// Disposes this watcher (stops any threads used and stops reporting).
+        /// </summary>
         public void Dispose()
         {
             isRunning = false;
