@@ -48,6 +48,7 @@ namespace WindowTitleWatcher
         {
             this.handleGetter = handleGetter;
 
+            InitPoller();
             Update();
 
             new Thread(() =>
