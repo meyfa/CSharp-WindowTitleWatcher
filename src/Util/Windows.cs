@@ -23,41 +23,7 @@ namespace WindowTitleWatcher.Util
         [DllImport("user32.dll")]
         private static extern bool IsWindowVisible(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
-
         #endregion
-
-        /// <summary>
-        /// Provides access to a window's information.
-        /// </summary>
-        public class WindowInfo
-        {
-            public readonly IntPtr Handle;
-
-            public int ProcessId
-            {
-                get
-                {
-                    uint pid;
-                    GetWindowThreadProcessId(Handle, out pid);
-
-                    return (int)pid;
-                }
-            }
-            public string ProcessName
-            {
-                get
-                {
-                    return Process.GetProcessById(ProcessId).ProcessName;
-                }
-            }
-
-            public WindowInfo(IntPtr hWnd)
-            {
-                Handle = hWnd;
-            }
-        }
 
         public delegate bool EnumCallback(WindowInfo windowHandle);
 

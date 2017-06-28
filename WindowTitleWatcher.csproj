@@ -38,6 +38,7 @@
     <Compile Include="src\Internal\WindowPoller.cs" />
     <Compile Include="src\BasicWatcher.cs" />
     <Compile Include="src\TitleEventArgs.cs" />
+    <Compile Include="src\Util\WindowInfo.cs" />
     <Compile Include="src\Watcher.cs" />
     <Compile Include="src\Util\Windows.cs" />
   </ItemGroup>
