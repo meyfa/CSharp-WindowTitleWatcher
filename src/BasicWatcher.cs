@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using WindowTitleWatcher.Internal;
+using WindowTitleWatcher.Util;
 
 namespace WindowTitleWatcher
 {
@@ -28,6 +29,15 @@ namespace WindowTitleWatcher
         /// <param name="proc">The process.</param>
         public BasicWatcher(Process proc)
             : this(proc.MainWindowHandle)
+        {
+        }
+
+        /// <summary>
+        /// Watches the given window in the background (keepAlive = false).
+        /// </summary>
+        /// <param name="window">The window.</param>
+        public BasicWatcher(WindowInfo window)
+            : this(window.Handle, false)
         {
         }
 
