@@ -22,7 +22,9 @@ namespace WindowTitleWatcher.Util
         {
             get
             {
-                GetWindowThreadProcessId(Handle, out uint pid);
+                uint pid;
+                GetWindowThreadProcessId(Handle, out pid);
+
                 return (int)pid;
             }
         }
