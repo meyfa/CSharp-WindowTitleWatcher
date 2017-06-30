@@ -14,6 +14,9 @@ namespace WindowTitleWatcher.Util
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 
+        [DllImport("user32.dll")]
+        private static extern bool IsWindowVisible(IntPtr hWnd);
+
         #endregion
 
         public readonly IntPtr Handle;
@@ -33,6 +36,14 @@ namespace WindowTitleWatcher.Util
             get
             {
                 return Process.GetProcessById(ProcessId).ProcessName;
+            }
+        }
+        
+        public bool IsVisible
+        {
+            get
+            {
+                return IsWindowVisible(Handle);
             }
         }
 

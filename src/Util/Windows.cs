@@ -20,9 +20,6 @@ namespace WindowTitleWatcher.Util
         [DllImport("user32.dll")]
         private static extern bool IsWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        private static extern bool IsWindowVisible(IntPtr hWnd);
-
         #endregion
 
         public delegate bool EnumCallback(WindowInfo windowHandle);
@@ -46,24 +43,6 @@ namespace WindowTitleWatcher.Util
         }
 
         /// <summary>
-        /// Enumerates all VISIBLE windows synchronously and applies the given
-        /// callback until it returns false or the end is reached.
-        /// </summary>
-        /// <param name="callback">The callback to apply to each window.</param>
-        public static void ForEachVisible(EnumCallback callback)
-        {
-            EnumWindows((hWnd, lParam) =>
-            {
-                if (!IsWindow(hWnd) || !IsWindowVisible(hWnd))
-                {
-                    // skip this
-                    return true;
-                }
-                return callback(new WindowInfo(hWnd));
-            }, IntPtr.Zero);
-        }
-
-        /// <summary>
         /// Finds the first out of all windows for which the filter returns true.
         /// </summary>
         /// <param name="filter">The predicate to apply.</param>
@@ -72,26 +51,6 @@ namespace WindowTitleWatcher.Util
         {
             WindowInfo result = null;
             ForEach(window =>
-            {
-                if (filter(window))
-                {
-                    result = window;
-                    return false;
-                }
-                return true;
-            });
-            return result;
-        }
-
-        /// <summary>
-        /// Finds the first out of all VISIBLE windows for which the filter returns true.
-        /// </summary>
-        /// <param name="filter">The predicate to apply.</param>
-        /// <returns>The window or null if none match.</returns>
-        public static WindowInfo FindFirstVisible(Predicate<WindowInfo> filter)
-        {
-            WindowInfo result = null;
-            ForEachVisible(window =>
             {
                 if (filter(window))
                 {
