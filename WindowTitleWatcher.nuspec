@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>WindowTitleWatcher</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>JangoBrick</authors>
+    <owners>JangoBrick</owners>
+    <licenseUrl>https://github.com/JangoBrick/CSharp-WindowTitleWatcher/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/JangoBrick/CSharp-WindowTitleWatcher</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Allows accessing and watching window titles and states of foreign processes.</description>
+    <releaseNotes>First release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>window process title watcher event state</tags>
+  </metadata>
+</package>
