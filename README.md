@@ -1,6 +1,6 @@
 # WindowTitleWatcher
 
-[![Build status](https://ci.appveyor.com/api/projects/status/wcj98yq1x83fa7yf?svg=true)](https://ci.appveyor.com/project/JangoBrick/csharp-windowtitlewatcher)
+[![Build status](https://ci.appveyor.com/api/projects/status/wcj98yq1x83fa7yf?svg=true)](https://ci.appveyor.com/project/meyfa/csharp-windowtitlewatcher)
 [![NuGet](https://img.shields.io/nuget/v/WindowTitleWatcher.svg)](https://www.nuget.org/packages/WindowTitleWatcher)
 
 Allows retrieving and observing window titles in C#.
