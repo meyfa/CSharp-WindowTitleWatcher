@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/meyfa/CSharp-WindowTitleWatcher</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Allows accessing and watching window titles and states of foreign processes.</description>
-    <releaseNotes>First release</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <releaseNotes>Added Title property to WindowInfo</releaseNotes>
+    <copyright>Copyright 2017 - 2018 Fabian Meyer</copyright>
     <tags>window process title watcher event state</tags>
   </metadata>
 </package>
