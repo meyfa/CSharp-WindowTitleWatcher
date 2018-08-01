@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using WindowTitleWatcher.Internal;
 
 namespace WindowTitleWatcher.Util
 {
@@ -20,14 +21,13 @@ namespace WindowTitleWatcher.Util
         #endregion
 
         public readonly IntPtr Handle;
+        private readonly WindowPoller Poller;
 
         public int ProcessId
         {
             get
             {
-                uint pid;
-                GetWindowThreadProcessId(Handle, out pid);
-
+                GetWindowThreadProcessId(Handle, out uint pid);
                 return (int)pid;
             }
         }
@@ -43,13 +43,22 @@ namespace WindowTitleWatcher.Util
         {
             get
             {
-                return IsWindowVisible(Handle);
+                return Poller.Poll().IsVisible;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return Poller.Poll().Title;
             }
         }
 
         public WindowInfo(IntPtr hWnd)
         {
             Handle = hWnd;
+            Poller = new WindowPoller(hWnd);
         }
     }
 }

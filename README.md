@@ -8,10 +8,26 @@ Allows retrieving and observing window titles in C#.
 ## Usage
 
 After the library has been added to your project, it is available within the
-namespaces `WindowTitleWatcher` and `WindowTitleWatcher.Util`. You can then
-watch foreign windows in two different ways.
+namespaces `WindowTitleWatcher` and `WindowTitleWatcher.Util`.
 
-### 1. Direct watching (`BasicWatcher`)
+### Retrieve a title
+
+The simplest way of retrieving a window's information is through
+`WindowTitleWatcher.Util.WindowInfo`. Example:
+
+```csharp
+using WindowTitleWatcher.Util;
+using System.Diagnostics;
+// ...
+
+var window = new WindowInfo(Process.GetProcessById(12345).MainWindowHandle);
+Console.WriteLine(window.ProcessId);    // 12345
+Console.WriteLine(window.ProcessName);  // "notepad"
+Console.WriteLine(window.IsVisible);    // true
+Console.WriteLine(window.Title);        // "Untitled - Notepad"
+```
+
+### `BasicWatcher`: Watch for updates
 
 `WindowTitleWatcher.BasicWatcher` is an extension of the abstract `Watcher`
 class and provides facilities for accessing a specific window's title,
@@ -53,7 +69,7 @@ watcher.Disposed += (sender, e) =>
 };
 ```
 
-### 2. Dynamic watching (`RecurrentWatcher`)
+### `RecurrentWatcher`: Watch windows that might close/reopen
 
 A `RecurrentWatcher` is used when the watching should not stop after the
 window's disposal. It will then later reactivate when another window matching
