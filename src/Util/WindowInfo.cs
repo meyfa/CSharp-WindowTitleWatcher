@@ -12,7 +12,6 @@ namespace WindowTitleWatcher.Util
     public class WindowInfo
     {
         #region imports
-
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 

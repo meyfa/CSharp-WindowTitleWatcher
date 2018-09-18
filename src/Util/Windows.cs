@@ -10,7 +10,6 @@ namespace WindowTitleWatcher.Util
     public class Windows
     {
         #region imports
-
         private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
         [DllImport("user32.dll")]
@@ -19,7 +18,9 @@ namespace WindowTitleWatcher.Util
         [DllImport("user32.dll")]
         private static extern bool IsWindow(IntPtr hWnd);
 
-        #endregion
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        #endregion imports
 
         public delegate bool EnumCallback(WindowInfo windowHandle);
 
@@ -60,5 +61,11 @@ namespace WindowTitleWatcher.Util
             });
             return result;
         }
+
+        public static bool Activate(WindowInfo win)
+        {
+            return SetForegroundWindow(win.Handle);
+        }
+
     }
 }
